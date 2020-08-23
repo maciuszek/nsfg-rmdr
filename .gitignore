@@ -100,8 +100,9 @@ ENV/
 # mypy
 .mypy_cache/
 
-
 # project specific files
 config.ini
 .idea/dataSources
 .idea/dataSources.local.xml
+
+nsfg-rmdr.code-workspace
