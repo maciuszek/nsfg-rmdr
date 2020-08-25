@@ -296,8 +296,6 @@ class BotClient(discord.AutoShardedClient):
                             if channel.guild_id is None:
                                 channel.guild_id = guild.id
 
-                            await channel.attach_webhook(message.channel)
-
                             if channel.blacklisted:
                                 await message.channel.send(
                                     embed=discord.Embed(description=info.language.get_string('blacklisted')))
@@ -713,9 +711,14 @@ class BotClient(discord.AutoShardedClient):
 
                 channel, _ = Channel.get_or_create(discord_channel)
 
-                await channel.attach_webhook(discord_channel)
+                try:
+                    await channel.attach_webhook(discord_channel)
 
-                time += channel.nudge
+                except discord.errors.HTTPException:
+                    return ReminderInformation(CreateReminderResponse.NO_WEBHOOK)
+
+                else:
+                    time += channel.nudge
 
             else:
                 user = await self.find_and_create_member(location, message.guild)
@@ -934,21 +937,21 @@ class BotClient(discord.AutoShardedClient):
         if scope == TodoScope.CHANNEL:
             location, _ = Channel.get_or_create(message.channel)
             location_name = 'Channel'
-            todos = location.todo_list.all()
+            todos = location.todo_list
             channel = location
             guild = preferences.guild
 
         elif scope == TodoScope.USER:
             location = preferences.user
             location_name = 'User'
-            todos = location.todo_list.filter(Todo.guild_id.is_(None)).all()
+            todos = location.todo_list.filter(Todo.guild_id.is_(None))
             channel = None
             guild = None
 
         else:
             location = preferences.guild
             location_name = 'Server'
-            todos = location.todo_list.filter(Todo.channel_id.is_(None)).all()
+            todos = location.todo_list.filter(Todo.channel_id.is_(None))
             channel = None
             guild = preferences.guild
 
@@ -1019,7 +1022,7 @@ class BotClient(discord.AutoShardedClient):
             if stripped == 'clear':
                 await message.channel.send(
                     preferences.language.get_string('todo/confirm').format(
-                        location.todo_list.count(),
+                        todos.count(),
                         location_name.lower()
                     )
                 )
@@ -1035,7 +1038,7 @@ class BotClient(discord.AutoShardedClient):
 
                 else:
                     if confirm.content.lower() == 'yes':
-                        location.todo_list.delete(synchronize_session='fetch')
+                        todos.delete(synchronize_session='fetch')
                         await message.channel.send(preferences.language.get_string('todo/cleared'))
 
                     else:
@@ -1203,7 +1206,7 @@ class BotClient(discord.AutoShardedClient):
     async def offset_reminders(message, stripped, preferences):
 
         if message.guild is None:
-            reminders = preferences.user.reminders
+            reminders = preferences.user.channel.reminders
         else:
             reminders = itertools.chain(*[channel.reminders for channel in preferences.guild.channels])
 
