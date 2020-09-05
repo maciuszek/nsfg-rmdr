@@ -3,3 +3,4 @@ discord.py
 pytz
 dateparser
 sqlalchemy
+tinyconf
