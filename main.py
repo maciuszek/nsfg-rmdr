@@ -19,6 +19,8 @@ from passers import *
 from time_extractor import TimeExtractor, InvalidTime
 from enums import TodoScope
 
+import os
+
 THEME_COLOR = 0x8fb677
 
 logging.basicConfig(level=logging.INFO)
@@ -119,7 +121,7 @@ class BotClient(discord.AutoShardedClient):
             url = 'https://discordapp.com/api/v6/guilds/{}/members/{}'.format(self.config.patreon_server, member_id)
 
             head = {
-                'authorization': 'Bot {}'.format(self.config.token),
+                'authorization': 'Bot {}'.format(client.run(os.getenv('BOT_TOKEN'))),
                 'content-type': 'application/json'
             }
 
@@ -1312,4 +1314,4 @@ class BotClient(discord.AutoShardedClient):
 
 
 client = BotClient(max_messages=100, guild_subscriptions=False, fetch_offline_members=False)
-client.run(client.config.token)
+client.run(os.getenv('BOT_TOKEN'))

@@ -9,7 +9,6 @@ class Config(IniDeserializer):
     patreon_enabled = BooleanField(default=False)
 
     dbl_token = Field()
-    token = Field(strict=True)
 
     local_timezone = Field(default='UTC')
     local_language = Field(default='EN')
@@ -21,7 +20,6 @@ class Config(IniDeserializer):
         patreon_server,
         patreon_enabled,
         dbl_token,
-        token,
         local_timezone,
         local_language,
         ignore_bots

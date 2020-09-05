@@ -1,0 +1,6 @@
+dateparser==0.7.6
+discord.py==1.4.1
+PyMySQL==0.10.0
+python-dateutil==2.8.1
+tinyconf==0.3.0
+tzlocal==2.1

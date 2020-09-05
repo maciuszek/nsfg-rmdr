@@ -10,6 +10,8 @@ import secrets
 
 from consts import ALL_CHARACTERS
 
+import os
+
 Base = declarative_base()
 
 guild_users = Table('guild_users',
@@ -324,16 +326,16 @@ Guild.roles = relationship(Role, backref='guild', lazy='dynamic')
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-user = config.get('MYSQL', 'USER')
+user = os.getenv('MYSQL_USER')
 password: typing.Optional[str] = None
 
 try:
-    password = config.get('MYSQL', 'PASSWD')
+    password = os.getenv('MYSQL_PASSWORD')
 except KeyError:
     password = None
 
-host = config.get('MYSQL', 'HOST')
-database = config.get('MYSQL', 'DATABASE')
+host = os.getenv('MYSQL_ADDRESS')
+database = os.getenv('MYSQL_DB_NAME')
 
 if password is not None:
     engine = create_engine('mysql+pymysql://{user}:{passwd}@{host}/{db}?charset=utf8mb4'.format(

@@ -6,16 +6,17 @@ from sqlalchemy_json import NestedMutableJson
 import configparser
 import json
 
+import os
 
 config = configparser.SafeConfigParser()
 config.read('config.ini')
-user = config.get('MYSQL', 'USER')
+user = os.getenv('MYSQL_USER')
 try:
-    passwd = config.get('MYSQL', 'PASSWD')
+    passwd = os.getenv('MYSQL_PASSWORD')
 except:
     passwd = None
-host = config.get('MYSQL', 'HOST')
-database = config.get('MYSQL', 'DATABASE')
+host = os.getenv('MYSQL_ADDRESS')
+database = os.getenv('MYSQL_DB_NAME')
 
 Base = declarative_base()
 
