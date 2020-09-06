@@ -3,7 +3,7 @@
 {
     '__full__': 'dutch',
 
-    '__maintainer__' : '@Mr Pleasant#1571',
+    '__maintainer__' : '@Mr Pleasant#0001',
 
     'blacklisted' : ''':x: Dit kanaal is op de zwarte lijst :x''',
 

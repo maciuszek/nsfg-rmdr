@@ -268,7 +268,7 @@ Usage:
 
         'added': '''Ajouté '{name}' todo!''',
 
-        'removed': '''Supprimé '{}' de todo!''',
+        'supprimé': '''Supprimé '{}' de todo!''',
 
         'error_value': '''L'élément de suppression doit être un nombre. Visualisez les TODO numérotés à l'aide de `{prefix}{command}`''',
 
@@ -280,7 +280,7 @@ Usage:
 
         'confirm': '''Vous êtes sur le point de supprimer **{} éléments** de votre **{}** liste de tâches. Êtes-vous sûr? (tapez `yes` pour confirmer) ''',
 
-        'canceled': '''Effacer annulé''',
+        'cancellé': '''Effacer annulé''',
     },
 
     'blacklist': {
@@ -299,12 +299,12 @@ Usage:
         'invalid': '''Langues:
 {} ''',
 
-        'set': '''La langue du serveur est définie sur le français.''',
+        'set': '''La langue du serveur est définie sur l'anglais.''',
 
-        'set_p': '''Langue personnelle définie sur le français.''',
+        'set_p': '''Langue personnelle définie sur l'anglais.''',
     },
 
-    'clock': {
+    'horloge': {
 
         'time': '''L'heure actuelle est {}.''',
 
@@ -340,7 +340,7 @@ Usage:
 
         'not_found': '''Impossible de trouver une minuterie de ce nom''',
 
-        'deleted': '''Suppression d'une minuterie''',
+        'supprimé': '''Suppression d'une minuterie''',
 
         'help': '''**Aide du minuteur**
 `timer list` - Afficher toutes les minuteries actuelles de votre serveur / utilisateur
