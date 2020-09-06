@@ -6,13 +6,12 @@ NSFG-RMDR is a customized implemenation of https://github.com/reminder-bot/bot m
 
 Get libs: `pip3 install --user -r requirements.txt`\
 Prepare database: `create.sql`\
-Run: `pyton3 nsfg-rmdr_languages/to_database.py`
+Setup: nsfg-rmdr_languages
 
 ### Configuration
 
 Files:
 * `config.ini` 
-* `languages/config.ini`
 
 Environemnt variables:
 VARIABLE | REQUIRED
