@@ -2,11 +2,20 @@
 
 NSFG-RMDR is a customized implemenation of https://github.com/reminder-bot/bot modified to be unbranded, lighter and heroku ready
 
-## Configuration
+## Setup
 
-Configuration is managed through environemnt variables
+Get libs: `pip3 install --user -r requirements.txt`\
+Prepare database: `create.sql`\
+Run: `pyton3 languages/to_database.py`
 
-ENVIRONMENT VARIABLE | REQUIRED
+### Configuration
+
+Files:
+* `config.ini` 
+* `languages/config.ini`
+
+Environemnt variables:
+VARIABLE | REQUIRED
 ------------- | -------------
 BOT_TOKEN | Y
 MYSQL_ADDRESS | Y
@@ -14,7 +23,6 @@ MYSQL_DB_NAME | Y
 MYSQL_USER | Y
 MYSQL_PASSWORD | Y
 
-## Setup
+## Run
 
-Get libs: `pip3 install --user -r requirements.txt`
 Run: `python3 main.py`
