@@ -1,0 +1,3 @@
+[submodule "nsfg-rmdr_languages"]
+	path = nsfg-rmdr_languages
+	url = https://github.com/maciuszek/nsfg-rmdr_languages.git
