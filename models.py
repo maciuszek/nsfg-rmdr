@@ -339,11 +339,11 @@ database = os.getenv('MYSQL_DB_NAME')
 
 if password is not None:
     engine = create_engine('mysql+pymysql://{user}:{passwd}@{host}/{db}?charset=utf8mb4'.format(
-        user=user, passwd=password, host=host, db=database))
+        user=user, passwd=password, host=host, db=database, pool_pre_ping=True))
 
 else:
     engine = create_engine('mysql+pymysql://{user}@{host}/{db}?charset=utf8mb4'.format(
-        user=user, host=host, db=database))
+        user=user, host=host, db=database, pool_pre_ping=True))
 
 Base.metadata.create_all(bind=engine)
 
