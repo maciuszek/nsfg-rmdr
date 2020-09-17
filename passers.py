@@ -46,6 +46,7 @@ class Preferences:
 
         self._language: typing.Optional[Language] = session.query(Language).filter(
             Language.code == language_code).first() or ENGLISH_STRINGS
+        session.close()
         self._timezone: str = timezone_code
         self._guild_timezone: str = guild_timezone_code
         self._prefix: str = '$'

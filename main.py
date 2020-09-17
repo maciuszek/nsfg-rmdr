@@ -113,6 +113,8 @@ class BotClient(discord.AutoShardedClient):
                 session.add(u)
                 session.commit()
 
+        session.close()
+
         return u
 
     async def is_patron(self, member_id) -> bool:
@@ -141,6 +143,7 @@ class BotClient(discord.AutoShardedClient):
 
     async def on_error(self, *a, **k):
         session.rollback()
+        session.close()
         raise
 
     async def on_ready(self):
@@ -180,10 +183,12 @@ class BotClient(discord.AutoShardedClient):
     # noinspection PyMethodMayBeStatic
     async def on_guild_remove(self, guild):
         session.query(Guild).filter(Guild.guild == guild.id).delete(synchronize_session='fetch')
+        session.close()
 
     # noinspection PyMethodMayBeStatic
     async def on_guild_channel_delete(self, channel):
         session.query(Channel).filter(Channel.channel == channel.id).delete(synchronize_session='fetch')
+        session.close()
 
     async def send(self):
         if self.config.dbl_token and self.c_session is not None:
@@ -226,6 +231,8 @@ class BotClient(discord.AutoShardedClient):
                         _message.author.name, _message.author.discriminator))
                     session.add(_user)
                     session.flush()
+            
+            session.close()
 
             return _user
 
@@ -315,6 +322,8 @@ class BotClient(discord.AutoShardedClient):
                             await message.channel.send(
                                 info.language.get_string(
                                     str(command.permission_level)).format(prefix=prefix))
+                    
+                    session.close()
 
         else:
             return
@@ -375,6 +384,7 @@ class BotClient(discord.AutoShardedClient):
             else:
                 preferences.prefix = new
                 session.commit()
+                session.close()
 
                 await message.channel.send(preferences.language.get_string('prefix/success').format(
                     prefix=preferences.prefix))
@@ -410,6 +420,7 @@ class BotClient(discord.AutoShardedClient):
                 query = session.query(CommandAlias) \
                     .filter(CommandAlias.name == name) \
                     .filter(CommandAlias.guild == preferences.guild)
+                session.close()
 
                 if query.first() is not None:
                     query.delete(synchronize_session='fetch')
@@ -459,7 +470,8 @@ class BotClient(discord.AutoShardedClient):
                         session.add(alias)
 
                     session.commit()
-
+                    session.close()
+                    
                     await message.channel.send(preferences.language['alias/created'].format(name=name))
 
         else:
@@ -497,6 +509,7 @@ class BotClient(discord.AutoShardedClient):
                         timezone=stripped, time=d.strftime('%H:%M:%S'))))
 
                 session.commit()
+                session.close()
 
     @staticmethod
     async def set_language(message, stripped, preferences):
@@ -518,6 +531,8 @@ class BotClient(discord.AutoShardedClient):
                 )
                 )
             )
+        
+        session.close()
 
     @staticmethod
     async def clock(message, stripped, preferences):
@@ -758,6 +773,7 @@ class BotClient(discord.AutoShardedClient):
                     set_by=creator.id)
                 session.add(reminder)
                 session.commit()
+                session.close()
 
         else:
             # noinspection PyArgumentList
@@ -770,6 +786,7 @@ class BotClient(discord.AutoShardedClient):
                 set_by=creator.id)
             session.add(reminder)
             session.commit()
+            session.close()
 
         return ReminderInformation(CreateReminderResponse.OK, channel=discord_channel, time=time)
 
@@ -833,6 +850,8 @@ class BotClient(discord.AutoShardedClient):
         else:
             await message.channel.send(preferences.language.get_string('timer/help'))
 
+        session.close()
+
     @staticmethod
     async def blacklist(message, _, preferences):
 
@@ -851,6 +870,7 @@ class BotClient(discord.AutoShardedClient):
                 embed=discord.Embed(description=preferences.language.get_string('blacklist/removed')))
 
         session.commit()
+        session.close()
 
     async def restrict(self, message, stripped, preferences):
 
@@ -929,6 +949,7 @@ class BotClient(discord.AutoShardedClient):
                     description=preferences.language.get_string('restrict/enabled')))
 
         session.commit()
+        session.close()
 
     async def todo_user(self, message, stripped, preferences):
         await self.todo_command(message, stripped, preferences, TodoScope.USER)
@@ -1055,6 +1076,7 @@ class BotClient(discord.AutoShardedClient):
                     preferences.language.get_string('todo/help').format(prefix=preferences.prefix, command=command))
 
         session.commit()
+        session.close()
 
     @staticmethod
     async def delete(message, _stripped, preferences):
@@ -1121,6 +1143,7 @@ class BotClient(discord.AutoShardedClient):
 
                 session.query(Reminder).filter(Reminder.id.in_(removal_ids)).delete(synchronize_session='fetch')
                 session.commit()
+                session.close()
 
             await message.channel.send(preferences.language.get_string('del/count').format(len(removal_ids)))
 
@@ -1242,6 +1265,7 @@ class BotClient(discord.AutoShardedClient):
                     session.add(edit_event)
 
                 session.commit()
+                session.close()
 
                 await message.channel.send(
                     embed=discord.Embed(description=preferences.language.get_string('offset/success').format(time)))
@@ -1265,7 +1289,8 @@ class BotClient(discord.AutoShardedClient):
                 channel.nudge = t
 
                 session.commit()
-
+                session.close()
+                
                 await message.channel.send(
                     embed=discord.Embed(description=preferences.language.get_string('nudge/success').format(t)))
 

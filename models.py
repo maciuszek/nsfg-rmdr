@@ -109,6 +109,7 @@ class Channel(Base):
             c.name = finding_channel.name
 
         session.flush()
+        session.close()
         return c, new
 
     async def attach_webhook(self, channel):
@@ -166,7 +167,9 @@ class User(Base):
 
     @classmethod
     def from_discord(cls, finding_user):
-        return session.query(cls).filter(cls.user == finding_user.id).first()
+        s = session.query(cls).filter(cls.user == finding_user.id).first()
+        session.close()
+        return s
 
     async def update_details(self, new_details):
         self.name = '{}#{}'.format(new_details.name, new_details.discriminator)
@@ -300,6 +303,7 @@ class Language(Base):
 
     def get_string(self, string):
         s = session.query(Strings).filter(Strings.c.name == string)
+        session.close()
         req = getattr(s.first(), 'value_{}'.format(self.code))
 
         return req if req is not None else s.first().value_EN
@@ -339,11 +343,11 @@ database = os.getenv('MYSQL_DB_NAME')
 
 if password is not None:
     engine = create_engine('mysql+pymysql://{user}:{passwd}@{host}/{db}?charset=utf8mb4'.format(
-        user=user, passwd=password, host=host, db=database, pool_pre_ping=True, pool_recycle=1))
+        user=user, passwd=password, host=host, db=database, pool_pre_ping=True))
 
 else:
     engine = create_engine('mysql+pymysql://{user}@{host}/{db}?charset=utf8mb4'.format(
-        user=user, host=host, db=database, pool_pre_ping=True, pool_recycle=1))
+        user=user, host=host, db=database, pool_pre_ping=True))
 
 Base.metadata.create_all(bind=engine)
 
@@ -363,3 +367,5 @@ Strings = Table('strings', Base.metadata,
 
 ENGLISH_STRINGS: typing.Optional[Language] = session.query(Language) \
     .filter(Language.code == config.get('DEFAULT', 'local_language')).first()
+
+session.close()
