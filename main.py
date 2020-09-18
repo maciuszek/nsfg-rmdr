@@ -232,8 +232,6 @@ class BotClient(discord.AutoShardedClient):
                     session.add(_user)
                     session.flush()
             
-            session.close()
-
             return _user
 
         if (message.author.bot and self.config.ignore_bots) or \
@@ -322,11 +320,11 @@ class BotClient(discord.AutoShardedClient):
                             await message.channel.send(
                                 info.language.get_string(
                                     str(command.permission_level)).format(prefix=prefix))
-                    
-                    session.close()
 
         else:
             return
+        
+        session.close()
 
     async def time_stats(self, message, *_):
         uptime: float = unix_time() - self.start_time
@@ -420,7 +418,6 @@ class BotClient(discord.AutoShardedClient):
                 query = session.query(CommandAlias) \
                     .filter(CommandAlias.name == name) \
                     .filter(CommandAlias.guild == preferences.guild)
-                session.close()
 
                 if query.first() is not None:
                     query.delete(synchronize_session='fetch')
@@ -470,10 +467,11 @@ class BotClient(discord.AutoShardedClient):
                         session.add(alias)
 
                     session.commit()
-                    session.close()
                     
                     await message.channel.send(preferences.language['alias/created'].format(name=name))
 
+            session.close()
+            
         else:
             await message.channel.send(preferences.language['alias/help'].format(prefix=preferences.guild.prefix))
 
@@ -773,7 +771,6 @@ class BotClient(discord.AutoShardedClient):
                     set_by=creator.id)
                 session.add(reminder)
                 session.commit()
-                session.close()
 
         else:
             # noinspection PyArgumentList
@@ -786,7 +783,8 @@ class BotClient(discord.AutoShardedClient):
                 set_by=creator.id)
             session.add(reminder)
             session.commit()
-            session.close()
+
+        session.close()
 
         return ReminderInformation(CreateReminderResponse.OK, channel=discord_channel, time=time)
 
