@@ -109,7 +109,6 @@ class Channel(Base):
             c.name = finding_channel.name
 
         session.flush()
-        session.close()
         return c, new
 
     async def attach_webhook(self, channel):
@@ -168,7 +167,6 @@ class User(Base):
     @classmethod
     def from_discord(cls, finding_user):
         s = session.query(cls).filter(cls.user == finding_user.id).first()
-        session.close()
         return s
 
     async def update_details(self, new_details):
@@ -303,7 +301,6 @@ class Language(Base):
 
     def get_string(self, string):
         s = session.query(Strings).filter(Strings.c.name == string)
-        session.close()
         req = getattr(s.first(), 'value_{}'.format(self.code))
 
         return req if req is not None else s.first().value_EN
