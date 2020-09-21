@@ -158,8 +158,8 @@ class BotClient(discord.AutoShardedClient):
         if self.config.patreon_enabled:
             logging.info('Patreon is enabled. Will look for servers {}'.format(self.config.patreon_server))
 
-        logging.info('Local timezone set to *{}*'.format(os.getenv('LOCAL_TIMEZONE'))
-        logging.info('Local language set to *{}*'.format(os.getenv('LOCAL_LANGUAGE'))
+        logging.info('Local timezone set to *{}*'.format(os.getenv('LOCAL_TIMEZONE')))
+        logging.info('Local language set to *{}*'.format(os.getenv('LOCAL_LANGUAGE')))
 
     async def on_guild_join(self, guild):
 
