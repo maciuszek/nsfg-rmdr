@@ -158,8 +158,8 @@ class BotClient(discord.AutoShardedClient):
         if self.config.patreon_enabled:
             logging.info('Patreon is enabled. Will look for servers {}'.format(self.config.patreon_server))
 
-        logging.info('Local timezone set to *{}*'.format(self.config.local_timezone))
-        logging.info('Local language set to *{}*'.format(self.config.local_language))
+        logging.info('Local timezone set to *{}*'.format(os.getenv('LOCAL_TIMEZONE'))
+        logging.info('Local language set to *{}*'.format(os.getenv('LOCAL_LANGUAGE'))
 
     async def on_guild_join(self, guild):
 
@@ -546,7 +546,7 @@ class BotClient(discord.AutoShardedClient):
         message_crop = stripped.split(server.language.get_string('natural/send'), 1)[1]
         datetime_obj = await self.do_blocking(partial(dateparser.parse, time_crop, settings={
             'TIMEZONE': server.timezone,
-            'TO_TIMEZONE': self.config.local_timezone,
+            'TO_TIMEZONE': os.getenv('LOCAL_TIMEZONE'),
             'RELATIVE_BASE': datetime.now(pytz.timezone(server.timezone)).replace(tzinfo=None),
             'PREFER_DATES_FROM': 'future'
         }))

@@ -10,9 +10,6 @@ class Config(IniDeserializer):
 
     dbl_token = Field()
 
-    local_timezone = Field(default='UTC')
-    local_language = Field(default='EN')
-
     ignore_bots = BooleanField(default=False)
 
     DEFAULT = Section(
@@ -20,7 +17,5 @@ class Config(IniDeserializer):
         patreon_server,
         patreon_enabled,
         dbl_token,
-        local_timezone,
-        local_language,
         ignore_bots
     )
