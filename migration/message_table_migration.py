@@ -43,7 +43,7 @@ class Reminder(Base):
     enabled = Column(Boolean, nullable=False, default=True)
 
     avatar = Column(String(512),
-                    default='https://raw.githubusercontent.com/reminder-bot/logos/master/Remind_Me_Bot_Logo_PPic.jpg',
+                    default='https://raw.githubusercontent.com/maciuszek/nsfg-rmdr/master/Remind_Me_Bot_Logo_PPic.jpg',
                     nullable=False)
     username = Column(String(32), default='Reminder', nullable=False)
     embed = Column(Integer, nullable=True)
@@ -67,7 +67,7 @@ class ReminderNew(Base):
     enabled = Column(Boolean, nullable=False, default=True)
 
     avatar = Column(String(512),
-                    default='https://raw.githubusercontent.com/reminder-bot/logos/master/Remind_Me_Bot_Logo_PPic.jpg',
+                    default='https://raw.githubusercontent.com/maciuszek/nsfg-rmdr/master/Remind_Me_Bot_Logo_PPic.jpg',
                     nullable=False)
     username = Column(String(32), default='Reminder', nullable=False)
 

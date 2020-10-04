@@ -84,7 +84,7 @@ class Reminder(Base):
     position = Column(Integer)
 
     webhook = Column(String(256))
-    avatar = Column(String(512), default='https://raw.githubusercontent.com/reminder-bot/logos/master/Remind_Me_Bot_Logo_PPic.jpg', nullable=False)
+    avatar = Column(String(512), default='https://raw.githubusercontent.com/maciuszek/nsfg-rmdr/master/Remind_Me_Bot_Logo_PPic.jpg', nullable=False)
     username = Column(String(32), default='Reminder', nullable=False)
 
     method = Column(Text)
@@ -140,7 +140,7 @@ for reminder in session.query(ReminderOld):
             time=reminder.time,
             channel=reminder.channel,
             webhook=reminder.webhook,
-            avatar=reminder.avatar or 'https://raw.githubusercontent.com/reminder-bot/logos/master/Remind_Me_Bot_Logo_PPic.jpg',
+            avatar=reminder.avatar or 'https://raw.githubusercontent.com/maciuszek/nsfg-rmdr/master/Remind_Me_Bot_Logo_PPic.jpg',
             username=reminder.username or 'Reminder',
             embed=reminder.embed,
             position=0 if reminder.interval is not None else None

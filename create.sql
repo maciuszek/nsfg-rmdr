@@ -13,7 +13,7 @@ CREATE TABLE YOUR_DATABASE.guilds (
 
     default_channel_id INT UNSIGNED,
     default_username VARCHAR(32) DEFAULT 'Reminder' NOT NULL,
-    default_avatar VARCHAR(512) DEFAULT 'https://raw.githubusercontent.com/reminder-bot/logos/master/Remind_Me_Bot_Logo_PPic.jpg' NOT NULL,
+    default_avatar VARCHAR(512) DEFAULT 'https://raw.githubusercontent.com/maciuszek/nsfg-rmdr/master/Remind_Me_Bot_Logo_PPic.jpg' NOT NULL,
 
     PRIMARY KEY (id),
     FOREIGN KEY (default_channel_id) REFERENCES YOUR_DATABASE.channels(id) ON DELETE SET NULL
@@ -115,7 +115,7 @@ CREATE TABLE YOUR_DATABASE.reminders (
 
     enabled BOOLEAN DEFAULT 1 NOT NULL,
 
-    avatar VARCHAR(512) DEFAULT 'https://raw.githubusercontent.com/reminder-bot/logos/master/Remind_Me_Bot_Logo_PPic.jpg' NOT NULL,
+    avatar VARCHAR(512) DEFAULT 'https://raw.githubusercontent.com/maciuszek/nsfg-rmdr/master/Remind_Me_Bot_Logo_PPic.jpg' NOT NULL,
     username VARCHAR(32) DEFAULT 'Reminder' NOT NULL,
 
     method ENUM('remind', 'natural', 'dashboard', 'todo'),
