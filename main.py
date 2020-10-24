@@ -1315,5 +1315,5 @@ class BotClient(discord.AutoShardedClient):
                     embed=discord.Embed(description=preferences.language['pause/unpaused']))
 
 
-client = BotClient(max_messages=100, guild_subscriptions=False, fetch_offline_members=False)
+client = BotClient(max_messages=100, guild_subscriptions=False, fetch_offline_members=False, activity=discord.Game(name = "$help"))
 client.run(os.getenv('BOT_TOKEN'))
